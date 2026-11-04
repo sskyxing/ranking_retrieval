@@ -1,0 +1,12 @@
+# CPU PyTorch is installed separately from the official CPU wheel index.
+torch==2.6.0+cpu
+transformers==4.51.3
+numpy==2.2.5
+scipy==1.15.2
+tqdm==4.67.1
+huggingface-hub==0.30.2
+tokenizers==0.21.1
+safetensors==0.5.3
+filelock==3.18.0
+setuptools==80.9.0
+

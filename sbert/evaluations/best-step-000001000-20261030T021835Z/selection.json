@@ -1,0 +1,29 @@
+{
+  "selected_at_utc": "2026-10-30T02:18:35.705383+00:00",
+  "source_model": "Q:\\repos\\ranking_retrieval\\sbert\\runs\\nli-bert-base\\best_models\\step-000001000-1fb3f8c0",
+  "snapshot_model": "Q:\\repos\\ranking_retrieval\\sbert\\evaluations\\best-step-000001000-20261030T021835Z\\model",
+  "training_step_at_selection": 1622,
+  "selection": {
+    "split": "stsb-dev",
+    "metric": "cosine_spearman",
+    "score": 0.5204859374847155,
+    "global_step": 1000
+  },
+  "model_files_sha256": {
+    "1_Pooling/config.json": "8ab38c1aec8b1fc9874f66b4c27038c4374a944406a21534c793448a4de18613",
+    "config.json": "9dfc0865ec22ba15b6937fbf1046baf859539a5265f3609f71ff0f84ff51d142",
+    "model.safetensors": "95309465959eb38c78ed51a5b4a41b59271cf36efce0c570d97c8b139ea7e88a",
+    "modules.json": "63dddb4cdd7c486d82d464ed9f11452927dfbd5783826b48757c5ee252635c15",
+    "sbert_config.json": "cf00b0a8d2de8e8a92e524db0358fe119a2527e6738552d06545c54b30dd98e3",
+    "sentence_bert_config.json": "7d4beba30dfd375afbd3131b048eb08f936db72efbebd54ec14b9b50a3b9e2a2",
+    "special_tokens_map.json": "3c3507f36dff57bce437223db3b3081d1e2b52ec3e56ee55438193ecb2c94dd6",
+    "tokenizer.json": "ba4a3f6ac63329dee489151bc5c993c636585a2f6344d94d6a70b2bdf7a882c7",
+    "tokenizer_config.json": "87ad1b9152a48db68810172cbd14ab6983a177e4393fb567c0dd189ad4af5dfe",
+    "vocab.txt": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"
+  },
+  "data_files_sha256": {
+    "test.docs": "9d779d34db160e63a92a6b753ac79bcbc80d0f04dd01bdde71f38e98d6ad1f16",
+    "test.titles.queries": "be3c7287d8784ab6f24e215693cdb0716468ff090252147415abe26a056a2648",
+    "test.2-1-0.qrel": "854da1b7a95e32383e508a89bf62848dd12b7aed28d2e35796e0190dfb97c3ae"
+  }
+}

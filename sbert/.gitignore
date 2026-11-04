@@ -1,0 +1,8 @@
+.venv/
+data/
+models/
+runs/
+evaluations/**/model/
+__pycache__/
+*.pyc
+

@@ -14,6 +14,17 @@ python .\bm25\run_bm25.py
 python .\bm25\run_bm25.py --data-dir Q:\repos\ranking_retrieval\nfcorpus --k1 1.2 --b 0.75 --output .\bm25\results.json
 ```
 
+## 评估结果
+
+默认参数 `k1=1.2`、`b=0.75` 的运行结果如下，完整结果见 [results.json](results.json)：
+
+| 指标 | 结果 |
+| --- | ---: |
+| Recall@10 | 0.152254（15.23%） |
+| nDCG@10 | 0.311744 |
+
+检索范围为 3162 篇测试文档，两项指标均对 323 条有正例的测试查询取宏平均；其余 2 条无正例查询跳过。具体数据与指标口径见下文。
+
 ## 数据与评估口径
 
 - 检索范围：`nfcorpus/test.docs`，共 3162 篇文档。
