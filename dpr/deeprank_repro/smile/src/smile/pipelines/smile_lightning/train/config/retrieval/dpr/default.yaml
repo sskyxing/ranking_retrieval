@@ -1,0 +1,77 @@
+# Low-level equivalent of retrieval.dpr_training/config/default.yaml. Prefer the
+# wrapper pipeline for normal use because it exposes each hyperparameter by name.
+defaults:
+  - workspace: wxtcssingwestus3
+  - compute: wxtcssingwestus3
+  - storage: default-relevance_c09
+  - _self_
+
+model_name_or_path: bert-base-uncased
+epochs: 40
+per_device_batch_size: 16
+val_batch_size: 16
+learning_rate: 2.0e-5
+adam_eps: 1.0e-8
+weight_decay: 0.0
+warmup_steps: 1237
+seq_length: 256
+workers: 4
+seed: 12345
+
+pipeline:
+  experiment_name: dpr_repro_${oc.env:USER,${oc.env:USERNAME,dev}}_direct_dev
+  continue_on_failure: false
+  force_rerun: false
+  inputs:
+    input_path_0: azureml://datastores/relevance_c09/paths/local/users/${oc.env:USER,${oc.env:USERNAME,REPLACE_WITH_ALIAS}}/dpr/REPLACE_WITH_NQ_TRAIN.json
+    input_path_1: azureml://datastores/relevance_c09/paths/local/users/${oc.env:USER,${oc.env:USERNAME,REPLACE_WITH_ALIAS}}/dpr/REPLACE_WITH_NQ_DEV.json
+    project_name: retrieval/dpr
+    config_name: train_app
+    config_additional_override: >-
+      trainer=gpu
+      trainer/strategy=ddp
+      trainer.precision=32-true
+      trainer.max_epochs=${epochs}
+      trainer.gradient_clip_val=2.0
+      trainer.gradient_clip_algorithm=norm
+      ++seed=${seed}
+      datamodule.train_path=$input_path_0
+      datamodule.val_path=$input_path_1
+      datamodule.tokenizer_name_or_path=${model_name_or_path}
+      datamodule.use_fast_tokenizer=false
+      datamodule.batch_size=${per_device_batch_size}
+      datamodule.val_batch_size=${val_batch_size}
+      datamodule.num_workers=${workers}
+      datamodule.max_question_length=${seq_length}
+      datamodule.max_context_length=${seq_length}
+      datamodule.seed=${seed}
+      datamodule.drop_last=true
+      datamodule.validation_num_hard_negatives=30
+      datamodule.validation_num_other_negatives=30
+      datamodule.validation_max_questions=10000
+      module.model.question_model_name_or_path=${model_name_or_path}
+      module.model.context_model_name_or_path=null
+      module.learning_rate=${learning_rate}
+      module.adam_eps=${adam_eps}
+      module.weight_decay=${weight_decay}
+      module.warmup_steps=${warmup_steps}
+      module.enable_average_rank=true
+      module.average_rank_start_epoch=30
+      module.average_rank_chunk_size=4096
+      module.validation_context_batch_size=128
+    job_type: distributed
+    node_count: 1
+    process_count_per_node: 8
+    is_singularity_job: true
+    singularity_vc: webxtcoresearchwus3
+    instance_type: ND96isr_MI300X_v5
+    sla_tier: Premium
+    priority: Low
+    locations: [canadacentral]
+    is_preemptible: false
+    environment_variables:
+      _AZUREML_SINGULARITY_JOB_UAI: /subscriptions/316a14b3-f94a-4267-a76a-497e589ef0a8/resourcegroups/managed-identities/providers/Microsoft.ManagedIdentity/userAssignedIdentities/coresearch-singularity
+      DEFAULT_IDENTITY_CLIENT_ID: 7ff4eaad-8686-4fd3-b319-7aeca13b05bf
+      DATASET_ENABLE_FORCE_FOLDER: "false"
+    output_datastore: relevance_c09
+    output_path: local/users/${oc.env:USER,${oc.env:USERNAME,dev}}/dpr/repro/direct/{run-id}/{output-name}

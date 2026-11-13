@@ -1,0 +1,53 @@
+{
+  "source": "Q:\\repos\\ranking_retrieval\\dpr\\downloads\\compressed-data\\retriever_results\\single\\nq-test.json.gz",
+  "source_url": "https://dl.fbaipublicfiles.com/dpr/data/retriever_results/single/nq-test.json.gz",
+  "source_bytes": 87432793,
+  "source_sha256": "77c7babe859bbf3d6326364a614048f9555aaf896d4bd75183de0ef31e45e852",
+  "question_count": 3610,
+  "cached_has_answer_top_k_accuracy": {
+    "1": {
+      "hits": 1673,
+      "fraction": 0.4634349030470914,
+      "percent": 46.34349030470914
+    },
+    "5": {
+      "hits": 2465,
+      "fraction": 0.682825484764543,
+      "percent": 68.2825484764543
+    },
+    "20": {
+      "hits": 2890,
+      "fraction": 0.8005540166204986,
+      "percent": 80.05540166204986
+    },
+    "100": {
+      "hits": 3108,
+      "fraction": 0.8609418282548477,
+      "percent": 86.09418282548476
+    }
+  },
+  "recomputed_top_k_accuracy": {
+    "1": {
+      "hits": 1673,
+      "fraction": 0.4634349030470914,
+      "percent": 46.34349030470914
+    },
+    "5": {
+      "hits": 2465,
+      "fraction": 0.682825484764543,
+      "percent": 68.2825484764543
+    },
+    "20": {
+      "hits": 2890,
+      "fraction": 0.8005540166204986,
+      "percent": 80.05540166204986
+    },
+    "100": {
+      "hits": 3108,
+      "fraction": 0.8609418282548477,
+      "percent": 86.09418282548476
+    }
+  },
+  "cached_vs_recomputed_context_disagreements": 0,
+  "tokenizer_note": "Standard-library implementation of the paper-era DrQA SimpleTokenizer: NFD, Unicode L/N/M runs, individual other non-Z/C characters, lowercase"
+}

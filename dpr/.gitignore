@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.py[cod]
+downloads/
+outputs/*
+!outputs/nq-test-precomputed-metrics.json
+runs/
+paper-env/
+

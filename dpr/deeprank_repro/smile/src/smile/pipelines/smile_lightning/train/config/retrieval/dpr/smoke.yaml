@@ -1,0 +1,52 @@
+# Low-cost direct smoke scenario for the shared smile_lightning.train pipeline.
+defaults:
+  - workspace: wxtcssingwestus3
+  - compute: wxtcssingwestus3
+  - storage: default-relevance_c09
+  - _self_
+
+pipeline:
+  experiment_name: dpr_repro_${oc.env:USER,${oc.env:USERNAME,dev}}_direct_smoke
+  continue_on_failure: false
+  force_rerun: false
+  inputs:
+    input_path_0: azureml://datastores/relevance_c09/paths/local/users/${oc.env:USER,${oc.env:USERNAME,REPLACE_WITH_ALIAS}}/dpr/smoke/REPLACE_WITH_NQ_TRAIN_SMOKE.json
+    input_path_1: azureml://datastores/relevance_c09/paths/local/users/${oc.env:USER,${oc.env:USERNAME,REPLACE_WITH_ALIAS}}/dpr/smoke/REPLACE_WITH_NQ_DEV_SMOKE.json
+    project_name: retrieval/dpr
+    config_name: train_app
+    config_additional_override: >-
+      trainer=cpu
+      trainer/strategy=single_device
+      trainer.precision=32-true
+      trainer.max_epochs=1
+      trainer.gradient_clip_val=2.0
+      trainer.gradient_clip_algorithm=norm
+      trainer.limit_train_batches=2
+      trainer.limit_val_batches=2
+      ++seed=12345
+      datamodule.train_path=$input_path_0
+      datamodule.val_path=$input_path_1
+      datamodule.tokenizer_name_or_path=bert-base-uncased
+      datamodule.use_fast_tokenizer=false
+      datamodule.batch_size=2
+      datamodule.val_batch_size=2
+      datamodule.num_workers=0
+      datamodule.max_question_length=32
+      datamodule.max_context_length=32
+      datamodule.seed=12345
+      datamodule.drop_last=true
+      datamodule.validation_num_hard_negatives=1
+      datamodule.validation_num_other_negatives=1
+      datamodule.validation_max_questions=16
+      module.model.question_model_name_or_path=bert-base-uncased
+      module.model.context_model_name_or_path=null
+      module.learning_rate=2.0e-5
+      module.warmup_steps=0
+      module.enable_average_rank=false
+    job_type: regular
+    node_count: 1
+    process_count_per_node: 1
+    is_singularity_job: false
+    compute_target: linux-compute
+    output_datastore: relevance_c09
+    output_path: local/users/${oc.env:USER,${oc.env:USERNAME,dev}}/dpr/repro/direct-smoke/{run-id}/{output-name}

@@ -1,0 +1,2 @@
+# Install with: python -m pip install --index-url https://download.pytorch.org/whl/cpu -r requirements-smoke.txt
+torch==2.6.0+cpu

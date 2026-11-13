@@ -1,0 +1,67 @@
+_target_: smile_lightning.core.BaseApp
+
+defaults:
+  - _self_
+  - schema/trainer: trainer
+  - trainer: gpu
+
+mode: train
+eval_at_first: false
+output_dir: null
+ckpt_path: null
+project_name: dpr
+seed: 12345
+
+# These values reproduce the DPR NQ training recipe. The SMILE wrapper exposes
+# the commonly changed fields as pipeline parameters and overrides them at submit time.
+module:
+  _target_: smile_lightning.apps.retrieval.dpr.DPRLightningModule
+  model:
+    _target_: smile_lightning.apps.retrieval.dpr.DPRBiEncoder
+    question_model_name_or_path: bert-base-uncased
+    context_model_name_or_path: null
+  learning_rate: 2.0e-5
+  adam_eps: 1.0e-8
+  weight_decay: 0.0
+  warmup_steps: 1237
+  max_steps: null
+  enable_average_rank: true
+  average_rank_start_epoch: 30
+  average_rank_chunk_size: 4096
+  validation_context_batch_size: 128
+
+datamodule:
+  _target_: smile_lightning.apps.retrieval.dpr.DPRDataModule
+  train_path: null
+  val_path: null
+  tokenizer_name_or_path: bert-base-uncased
+  use_fast_tokenizer: false
+  batch_size: 16
+  val_batch_size: 16
+  num_workers: 4
+  max_question_length: 256
+  max_context_length: 256
+  seed: 12345
+  drop_last: true
+  pin_memory: true
+  persistent_workers: null
+  validation_num_hard_negatives: 30
+  validation_num_other_negatives: 30
+  validation_max_questions: 10000
+
+callbacks:
+  model_checkpoint:
+    _target_: smile_lightning.core.callbacks.SmileModelCheckpoint
+    filename: epoch={epoch}-step={step}
+    monitor: null
+    save_top_k: -1
+    save_last: true
+    auto_insert_metric_name: false
+  learning_rate_monitor:
+    _target_: pytorch_lightning.callbacks.LearningRateMonitor
+    logging_interval: step
+
+# DO NOT CHANGE BELOW
+hydra:
+  searchpath:
+    - file://conf/core

@@ -1,0 +1,52 @@
+defaults:
+  - workspace: wxtcssingwestus3
+  - compute: wxtcssingwestus3
+  - storage: default-relevance_c09
+  - _self_
+
+pipeline:
+  experiment_name: dpr_repro_${oc.env:USER,${oc.env:USERNAME,dev}}_smoke
+  continue_on_failure: false
+  force_rerun: false
+  inputs:
+    train_data: azureml://datastores/relevance_c09/paths/local/users/${oc.env:USER,${oc.env:USERNAME,REPLACE_WITH_ALIAS}}/dpr/smoke/REPLACE_WITH_NQ_TRAIN_SMOKE.json
+    validation_data: azureml://datastores/relevance_c09/paths/local/users/${oc.env:USER,${oc.env:USERNAME,REPLACE_WITH_ALIAS}}/dpr/smoke/REPLACE_WITH_NQ_DEV_SMOKE.json
+
+    model_name_or_path: bert-base-uncased
+    epochs: 1
+    per_device_batch_size: 2
+    val_batch_size: 2
+    learning_rate: 2.0e-5
+    adam_eps: 1.0e-8
+    weight_decay: 0.0
+    warmup_steps: 0
+    seq_length: 32
+    workers: 0
+    seed: 12345
+    enable_average_rank: false
+    average_rank_start_epoch: 30
+    average_rank_chunk_size: 256
+    validation_context_batch_size: 16
+    validation_num_hard_negatives: 1
+    validation_num_other_negatives: 1
+    validation_max_questions: 16
+    config_additional_override: "trainer.limit_train_batches=2 trainer.limit_val_batches=2"
+
+    trainer_config: cpu
+    strategy_config: single_device
+    job_type: regular
+    node_count: 1
+    process_count_per_node: 1
+    is_singularity_job: false
+    singularity_vc: null
+    vc_arm_id: null
+    instance_type: null
+    sla_tier: Basic
+    priority: Low
+    locations: null
+    is_preemptible: false
+    compute_target: linux-compute
+    environment_variables: {}
+
+    output_datastore: relevance_c09
+    output_path: local/users/${oc.env:USER,${oc.env:USERNAME,dev}}/dpr/repro/smoke/{run-id}/{output-name}

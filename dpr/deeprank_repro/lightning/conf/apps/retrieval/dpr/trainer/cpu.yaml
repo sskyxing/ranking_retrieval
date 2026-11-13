@@ -1,0 +1,18 @@
+defaults:
+  - strategy: single_device
+
+accelerator: cpu
+devices: 1
+num_nodes: 1
+precision: 32-true
+max_epochs: 1
+gradient_clip_val: 2.0
+gradient_clip_algorithm: norm
+num_sanity_val_steps: 0
+log_every_n_steps: 1
+val_check_interval: 1.0
+limit_train_batches: 2
+limit_val_batches: 2
+limit_test_batches: 1.0
+limit_predict_batches: null
+profiler: null
